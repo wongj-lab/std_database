@@ -1,0 +1,43 @@
+#include <iostream>
+
+#include "SmartPointer.h"
+
+using namespace std;
+using namespace WLib;
+
+class TestClass
+{
+private:
+    int value;
+    
+public:
+    TestClass(int v) : value(v) 
+    {
+        cout << "TestClass 构造，值: " << value << endl;
+    }
+    
+    ~TestClass() 
+    {
+        cout << "TestClass 析构，值: " << value << endl;
+    }
+    
+    void display() 
+    {
+        cout << "值为: " << value << endl;
+    }
+};
+
+
+
+int main()
+{ 
+    cout << "智能指针测试" << endl;
+    SmartPointer<TestClass> sp(new TestClass(10));
+
+    cout << "使用指针" << endl;
+    sp->display();
+    
+    cout << "程序结束，智能指针会自动清理资源..." << endl;
+
+    return 0;
+}
