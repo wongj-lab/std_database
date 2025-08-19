@@ -1,0 +1,41 @@
+#include <iostream>
+
+using namespace std;
+
+int serch(int a[],int len)
+{
+	int tmp[10] = {0};
+	int max = 0;
+	int ret;
+
+	for(int i=0;i<len;i++)
+	{
+		tmp[a[i]]++;	
+	}
+
+	for(int i=0;i<len;i++)
+	{
+		if(max < tmp[i])
+		{
+			max = tmp[i];	
+			ret = i;
+		}
+	}
+
+	return ret;
+}
+
+
+// 找出数组中使用频率最多的数据
+int main()
+{
+	int ret;
+
+	static int a[] = {1,1,3,4,6,6,6,6,8,9};
+
+	ret = serch(a,sizeof(a)/sizeof(*a));
+
+	cout << ret << endl;
+
+	return 0;
+}

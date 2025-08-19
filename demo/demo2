@@ -1,0 +1,32 @@
+#include <iostream>
+
+using namespace std;
+
+
+void devide(int a,int b)
+{
+	if(b == 0)
+	{
+		throw(0);
+	}
+
+	cout << a <<" / " << b << " = " << a/b<< endl;
+}
+
+
+
+
+int main()
+{
+	try
+	{
+		devide(1,1);
+	}
+	catch(...)
+	{
+		cout <<"zero by devide!"<< endl;
+	}
+
+
+	return 0;
+}

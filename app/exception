@@ -1,0 +1,22 @@
+#include <iostream>
+#include "Exception.h"
+/* 
+此测试程序用于测试异常处理模块
+可以很方便的打印异常的信息（文件和行树名）
+ */
+using namespace std;
+using namespace WLib;
+
+int  main()
+{
+	try{
+        THROW_EXCEPTION(IndexOutOfBoundsException, "IndexOutOfBoundsException");
+	}
+    catch(const Exception& e){
+        cout <<  " catch(const Exception& e)" << endl;
+        cout << e.message() << endl;
+        cout << e.location() << endl;
+    }
+
+    return 1;
+}
