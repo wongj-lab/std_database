@@ -1,0 +1,105 @@
+// demo/dynamiclist_demo.cpp
+#include "DynamicList.h"
+#include <iostream>
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    cout << "=== DynamicList 测试 ===" << endl;
+    
+    try {
+        // 创建一个初始容量为3的动态列表
+        DynamicList<int> dynamicList(3);
+        
+        cout << "初始容量: " << dynamicList.capacity() << endl;
+        cout << "初始长度: " << dynamicList.length() << endl;
+        
+        // 添加元素
+        cout << "\n--- 添加元素 ---" << endl;
+        dynamicList.insert(0, 10);
+        cout << "插入 10 到位置 0" << endl;
+        
+        dynamicList.insert(20);
+        cout << "在末尾插入 20" << endl;
+        
+        dynamicList.insert(1, 30);
+        cout << "插入 30 到位置 1" << endl;
+        
+        dynamicList.insert(40);
+        cout << "在末尾插入 40" << endl;
+        
+        cout << "当前长度: " << dynamicList.length() << endl;
+        
+        // 显示所有元素
+        cout << "\n--- 当前列表元素 ---" << endl;
+        for(int i = 0; i < dynamicList.length(); i++) {
+            cout << "元素[" << i << "] = " << dynamicList[i] << endl;
+        }
+        
+        // 测试查找功能
+        cout << "\n--- 查找功能测试 ---" << endl;
+        int index = dynamicList.find(30);
+        if(index != -1) {
+            cout << "找到 30 在位置: " << index << endl;
+        } else {
+            cout << "未找到 30" << endl;
+        }
+        
+        // 测试修改元素
+        cout << "\n--- 修改元素测试 ---" << endl;
+        if(dynamicList.set(1, 50)) {
+            cout << "成功将位置 1 的元素修改为 50" << endl;
+        }
+        
+        cout << "修改后位置 1 的元素: " << dynamicList[1] << endl;
+        
+        // 测试获取元素
+        cout << "\n--- 获取元素测试 ---" << endl;
+        int value;
+        if(dynamicList.get(2, value)) {
+            cout << "位置 2 的元素是: " << value << endl;
+        }
+        
+        // 测试扩容功能
+        cout << "\n--- 扩容测试 ---" << endl;
+        cout << "扩容前容量: " << dynamicList.capacity() << endl;
+        dynamicList.resize(10);
+        cout << "扩容后容量: " << dynamicList.capacity() << endl;
+        
+        // 继续添加元素
+        for(int i = 0; i < 5; i++) {
+            dynamicList.insert(100 + i);
+        }
+        
+        cout << "添加更多元素后长度: " << dynamicList.length() << endl;
+        cout << "所有元素:" << endl;
+        for(int i = 0; i < dynamicList.length(); i++) {
+            cout << "  [" << i << "] = " << dynamicList[i] << endl;
+        }
+        
+        // 测试删除元素
+        cout << "\n--- 删除元素测试 ---" << endl;
+        if(dynamicList.remove(0)) {
+            cout << "成功删除位置 0 的元素" << endl;
+        }
+        
+        cout << "删除后长度: " << dynamicList.length() << endl;
+        cout << "删除后第一个元素: " << dynamicList[0] << endl;
+        
+        // 测试清空列表
+        cout << "\n--- 清空列表测试 ---" << endl;
+        dynamicList.clear();
+        cout << "清空后长度: " << dynamicList.length() << endl;
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    cout << "\n=== 测试结束 ===" << endl;
+    
+    return 0;
+}

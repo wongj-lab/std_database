@@ -28,6 +28,10 @@ class DynamicList: public SeqList<T>
 				THROW_EXCEPTION(NoEnoughMemoryException,"no memory to create dynamiclist object...");
 			}
 		}
+		int capacity()const
+		{
+			return m_capacity;
+		}
 
 		void resize(int capacity)
 		{
@@ -44,7 +48,7 @@ class DynamicList: public SeqList<T>
 						array[i] = this->m_array[i];
 					}
 
-					T* temp = this->array;
+					T* temp = this->m_array;
 
 					this->m_array = array;
 					this->m_length = length;
