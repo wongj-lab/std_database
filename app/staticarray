@@ -1,0 +1,73 @@
+// demo/staticarray_demo.cpp
+#include "StaticArray.h"
+#include "Exception.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    cout << "=== StaticArray 测试 ===" << endl;
+    
+    try {
+        // 创建一个大小为5的静态数组
+        StaticArray<int, 5> intArray;
+        
+        cout << "数组大小: " << intArray.length() << endl;
+        
+        // 设置数组元素
+        cout << "\n--- 设置数组元素 ---" << endl;
+        for(int i = 0; i < intArray.length(); i++) {
+            intArray[i] = (i + 1) * 10;
+            cout << "设置 array[" << i << "] = " << (i + 1) * 10 << endl;
+        }
+        
+        // 读取数组元素
+        cout << "\n--- 读取数组元素 ---" << endl;
+        for(int i = 0; i < intArray.length(); i++) {
+            cout << "array[" << i << "] = " << intArray[i] << endl;
+        }
+        
+        // 测试拷贝构造函数
+        cout << "\n--- 测试拷贝构造函数 ---" << endl;
+        StaticArray<int, 5> intArrayCopy(intArray);
+        cout << "拷贝后数组元素:" << endl;
+        for(int i = 0; i < intArrayCopy.length(); i++) {
+            cout << "copy[" << i << "] = " << intArrayCopy[i] << endl;
+        }
+        
+        // 测试赋值操作符
+        cout << "\n--- 测试赋值操作符 ---" << endl;
+        StaticArray<int, 5> intArrayAssigned;
+        // 先设置一些不同的值
+        for(int i = 0; i < intArrayAssigned.length(); i++) {
+            intArrayAssigned[i] = i * 5;
+        }
+        cout << "赋值前 arrayAssigned[2] = " << intArrayAssigned[2] << endl;
+        
+        intArrayAssigned = intArray;
+        cout << "赋值后 arrayAssigned[2] = " << intArrayAssigned[2] << endl;
+        
+        // 测试不同类型的数组
+        cout << "\n--- 测试字符串数组 ---" << endl;
+        StaticArray<string, 3> stringArray;
+        stringArray[0] = "Hello";
+        stringArray[1] = "World";
+        stringArray[2] = "C++";
+        
+        for(int i = 0; i < stringArray.length(); i++) {
+            cout << "stringArray[" << i << "] = " << stringArray[i] << endl;
+        }
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    cout << "\n=== 测试结束 ===" << endl;
+    
+    return 0;
+}
