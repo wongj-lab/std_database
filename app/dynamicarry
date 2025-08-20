@@ -1,0 +1,111 @@
+// demo/dynamicarray_demo.cpp
+#include "DynamicArray.h"
+#include <iostream>
+#include <string>
+#include "Exception.h"
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    cout << "=== DynamicArray 测试 ===" << endl;
+    
+    try {
+        // 创建一个初始大小为3的动态数组
+        DynamicArray<int> dynArray(3);
+        
+        cout << "初始数组大小: " << dynArray.length() << endl;
+        
+        // 设置数组元素
+        cout << "\n--- 设置数组元素 ---" << endl;
+        for(int i = 0; i < dynArray.length(); i++) {
+            dynArray.set(i, (i + 1) * 10);
+            cout << "设置 array[" << i << "] = " << (i + 1) * 10 << endl;
+        }
+        
+        // 读取数组元素
+        cout << "\n--- 读取数组元素 ---" << endl;
+        for(int i = 0; i < dynArray.length(); i++) {
+            int value;
+            if(dynArray.get(i, value)) {
+                cout << "array[" << i << "] = " << value << endl;
+            }
+        }
+        
+        // 使用下标操作符访问元素
+        cout << "\n--- 使用下标操作符 ---" << endl;
+        cout << "array[0] = " << dynArray[0] << endl;
+        cout << "array[1] = " << dynArray[1] << endl;
+        
+        // 测试扩容功能
+        cout << "\n--- 测试扩容功能 ---" << endl;
+        cout << "扩容前大小: " << dynArray.length() << endl;
+        dynArray.resize(6);
+        cout << "扩容后大小: " << dynArray.length() << endl;
+        
+        // 在新扩容的空间中设置元素
+        for(int i = 3; i < dynArray.length(); i++) {
+            dynArray.set(i, (i + 1) * 100);
+            cout << "设置 array[" << i << "] = " << (i + 1) * 100 << endl;
+        }
+        
+        // 显示所有元素
+        cout << "\n--- 所有数组元素 ---" << endl;
+        for(int i = 0; i < dynArray.length(); i++) {
+            cout << "array[" << i << "] = " << dynArray[i] << endl;
+        }
+        
+        // 测试缩容功能
+        cout << "\n--- 测试缩容功能 ---" << endl;
+        cout << "缩容前大小: " << dynArray.length() << endl;
+        dynArray.resize(4);
+        cout << "缩容后大小: " << dynArray.length() << endl;
+        cout << "缩容后元素:" << endl;
+        for(int i = 0; i < dynArray.length(); i++) {
+            cout << "array[" << i << "] = " << dynArray[i] << endl;
+        }
+        
+        // 测试拷贝构造函数
+        cout << "\n--- 测试拷贝构造函数 ---" << endl;
+        DynamicArray<int> dynArrayCopy(dynArray);
+        cout << "拷贝数组大小: " << dynArrayCopy.length() << endl;
+        cout << "拷贝数组元素:" << endl;
+        for(int i = 0; i < dynArrayCopy.length(); i++) {
+            cout << "copy[" << i << "] = " << dynArrayCopy[i] << endl;
+        }
+        
+        // 测试赋值操作符
+        cout << "\n--- 测试赋值操作符 ---" << endl;
+        DynamicArray<int> dynArrayAssigned(2);
+        dynArrayAssigned = dynArray;
+        cout << "赋值后数组大小: " << dynArrayAssigned.length() << endl;
+        cout << "赋值后数组元素:" << endl;
+        for(int i = 0; i < dynArrayAssigned.length(); i++) {
+            cout << "assigned[" << i << "] = " << dynArrayAssigned[i] << endl;
+        }
+        
+        // 测试不同类型的数组
+        cout << "\n--- 测试字符串数组 ---" << endl;
+        DynamicArray<string> stringArray(3);
+        stringArray.set(0, "Hello");
+        stringArray.set(1, "World");
+        stringArray.set(2, "C++");
+        
+        for(int i = 0; i < stringArray.length(); i++) {
+            string value;
+            if(stringArray.get(i, value)) {
+                cout << "stringArray[" << i << "] = " << value << endl;
+            }
+        }
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    cout << "\n=== 测试结束 ===" << endl;
+    
+    return 0;
+}
