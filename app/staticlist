@@ -1,0 +1,27 @@
+#include "StaticList.h"
+#include <iostream>
+
+using namespace std;
+using namespace WLib;
+
+
+int main()
+{
+    cout << "=== StaticList 测试 ===" << endl;
+    
+    // 创建一个容量为5的静态列表
+    StaticList<int, 5> staticList;
+    
+    // 添加元素
+    staticList.insert(0, 10);
+    staticList.insert(1, 20);
+    staticList.insert(2, 30);
+    
+    cout << "列表长度: " << staticList.length() << endl;
+    cout << "列表容量: " << staticList.capacity() << endl;
+    
+    // 遍历并打印元素
+    for(int i = 0; i < staticList.length(); i++) {
+        cout << "元素[" << i << "] = " << staticList[i] << endl;
+    }
+}
