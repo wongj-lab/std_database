@@ -20,7 +20,7 @@ protected:
 	mutable struct: public Object
 	{
 		Node* next;
-		char reserved[sizeof[T]];
+		char reserved[sizeof(T)];
 	}m_header;
 
 	int m_length;
@@ -64,7 +64,7 @@ public:
 
 	bool insert(int i,const T& e)
 	{
-		bool ret = ((0<i)&&(i<m_length));
+		bool ret = ((0<=i)&&(i<=m_length));
 
 		if(ret)
 		{
@@ -85,11 +85,12 @@ public:
 				THROW_EXCEPTION(NoEnoughMemoryException,"No memory to insert new element...");
 			}
 		}
+		return ret;
 	}
 
 	bool remove(int i)
 	{
-		bool ret = ((0<i)&&(i<m_length));
+		bool ret = ((0<=i)&&(i<m_length));
 		if(ret)
 		{
 			Node* current = position(i);
@@ -113,7 +114,7 @@ public:
 
 	bool set(int i,const T& e)
 	{
-		bool ret = ((0<i)&&(i<m_length));
+		bool ret = ((0<=i)&&(i<m_length));
 
 		if(ret)
 		{
@@ -143,7 +144,7 @@ public:
 
 	bool get(int i,T& e)const
 	{
-		bool ret = ((0<i)&&(i<m_length))
+		bool ret = ((0<=i)&&(i<m_length));
 		if(ret)
 		{
 			e = position(i)->next->value;
@@ -179,10 +180,25 @@ public:
 	{
 		return m_length;
 	}
+	void clear()
+	{
+		while(m_header.next)
+		{
+			Node* toDel = m_header.next;
+
+			m_header.next=toDel->next;
+
+			m_length--;
+
+			destroy(toDel);
+		}
+
+		m_current = NULL;
+	}
 
 	virtual bool move(int i,int step=1)
 	{
-		bool ret = ((0<i)&&(i<m_length));
+		bool ret = ((0<=i)&&(i<m_length));
 
 		if(ret)
 		{
@@ -203,7 +219,7 @@ public:
 	{
 		if(!end())
 		{
-			return current->value;
+			return m_current->value;
 		}
 		else
 		{
@@ -228,7 +244,7 @@ public:
 	{
 		clear();
 	}
-}
+};
 }
 
 #endif

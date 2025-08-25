@@ -1,0 +1,129 @@
+// demo/circlelist_demo.cpp
+#include "CircleList.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    cout << "=== CircleList 测试 ===" << endl;
+    
+    try {
+        // 创建一个整数循环链表
+        CircleList<int> circleList;
+        
+        cout << "初始链表长度: " << circleList.length() << endl;
+        
+        // 添加元素
+        cout << "\n--- 添加元素 ---" << endl;
+        circleList.insert(0, 10);
+        cout << "插入 10 到位置 0" << "长度: " <<  circleList.length() << endl;
+        
+        circleList.insert(20);
+        cout << "在末尾插入 20" << endl;
+        
+        circleList.insert(1, 30);
+        cout << "插入 30 到位置 1" << endl;
+        
+        circleList.insert(40);
+        cout << "在末尾插入 40" << endl;
+        
+        cout << "当前链表长度: " << circleList.length() << endl;
+        
+        // 显示所有元素
+        cout << "\n--- 当前链表元素 ---" << endl;
+        for(int i = 0; i < circleList.length(); i++) {
+            int value;
+            if(circleList.get(i, value)) {
+                cout << "元素[" << i << "] = " << value << endl;
+            }
+        }
+        
+        // 测试循环特性
+        cout << "\n--- 测试循环特性 ---" << endl;
+        cout << "链表长度为 " << circleList.length() << endl;
+        cout << "访问位置 0: " << circleList.get(0) << endl;
+        cout << "访问位置 4 (超出范围): " << circleList.get(4) << endl;
+        cout << "访问位置 8 (超出范围): " << circleList.get(8) << endl;
+        
+        // 测试查找功能
+        cout << "\n--- 查找功能测试 ---" << endl;
+        int index = circleList.find(30);
+        if(index != -1) {
+            cout << "找到 30 在位置: " << index << endl;
+        } else {
+            cout << "未找到 30" << endl;
+        }
+        
+        // 测试修改元素
+        cout << "\n--- 修改元素测试 ---" << endl;
+        if(circleList.set(1, 50)) {
+            cout << "成功将位置 1 的元素修改为 50" << endl;
+        }
+        
+        int value;
+        if(circleList.get(1, value)) {
+            cout << "修改后位置 1 的元素: " << value << endl;
+        }
+        
+        // 测试删除元素
+        cout << "\n--- 删除元素测试 ---" << endl;
+        cout << "删除前长度: " << circleList.length() << endl;
+        
+        if(circleList.remove(0)) {
+            cout << "成功删除位置 0 的元素" << endl;
+        }
+        
+        cout << "删除后长度: " << circleList.length() << endl;
+        cout << "删除后第一个元素: " << circleList.get(0) << endl;
+        
+        // 显示剩余元素
+        cout << "\n--- 剩余元素 ---" << endl;
+        for(int i = 0; i < circleList.length(); i++) {
+            int value;
+            if(circleList.get(i, value)) {
+                cout << "元素[" << i << "] = " << value << endl;
+            }
+        }
+        
+        // 测试移动和遍历功能
+        cout << "\n--- 移动和遍历测试 ---" << endl;
+        circleList.move(0, 0); // 移动到位置0
+        cout << "当前位置元素: " << circleList.current() << endl;
+        
+        circleList.next(); // 移动到下一个
+        cout << "下一个元素: " << circleList.current() << endl;
+        
+        // 测试清空链表
+        cout << "\n--- 清空链表测试 ---" << endl;
+        cout << "清空前长度: " << circleList.length() << endl;
+        circleList.clear();
+        cout << "清空后长度: " << circleList.length() << endl;
+        
+        // 测试字符串类型的循环链表
+        cout << "\n--- 字符串循环链表测试 ---" << endl;
+        CircleList<string> stringList;
+        stringList.insert("First");
+        stringList.insert("Second");
+        stringList.insert("Third");
+        
+        cout << "字符串链表元素:" << endl;
+        for(int i = 0; i < stringList.length(); i++) {
+            string value;
+            if(stringList.get(i, value)) {
+                cout << "  [" << i << "] = " << value << endl;
+            }
+        }
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    cout << "\n=== 测试结束 ===" << endl;
+    
+    return 0;
+}
