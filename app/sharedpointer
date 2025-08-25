@@ -1,0 +1,122 @@
+// demo/sharedpointer_demo.cpp
+#include "SharedPointer.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+using namespace WLib;
+
+class TestClass
+{
+private:
+    int m_value;
+    string m_name;
+    
+public:
+    TestClass(int value, const string& name) : m_value(value), m_name(name)
+    {
+        cout << "TestClass 构造: " << m_name << " (" << m_value << ")" << endl;
+    }
+    
+    ~TestClass()
+    {
+        cout << "TestClass 析构: " << m_name << " (" << m_value << ")" << endl;
+    }
+    
+    int getValue() const { return m_value; }
+    const string& getName() const { return m_name; }
+    
+    void setValue(int value) { m_value = value; }
+    void setName(const string& name) { m_name = name; }
+    
+    void print() const
+    {
+        cout << "TestClass: " << m_name << " = " << m_value << endl;
+    }
+};
+
+int main()
+{
+    cout << "=== SharedPointer 测试 ===" << endl;
+    
+    try {
+        // 测试基本使用
+        cout << "\n--- 基本使用测试 ---" << endl;
+        {
+            SharedPointer<TestClass> ptr1(new TestClass(10, "Object1"));
+            ptr1->print();
+            cout << "ptr1 指向的对象值: " << ptr1->getValue() << endl;
+        } // ptr1 离开作用域，对象被销毁
+        
+        // 测试共享引用计数
+        cout << "\n--- 共享引用计数测试 ---" << endl;
+        {
+            SharedPointer<TestClass> ptr2(new TestClass(20, "Object2"));
+            cout << "创建 ptr2" << endl;
+            
+            {
+                SharedPointer<TestClass> ptr3 = ptr2; // 拷贝构造
+                cout << "创建 ptr3 (拷贝自 ptr2)" << endl;
+                cout << "ptr2 和 ptr3 指向同一对象: " << (ptr2 == ptr3 ? "是" : "否") << endl;
+                
+                ptr3->print();
+            } // ptr3 离开作用域，但对象不会被销毁，因为 ptr2 仍然引用它
+            cout << "ptr3 已销毁，但对象仍然存在" << endl;
+            
+            ptr2->print();
+        } // ptr2 离开作用域，对象被销毁
+        
+        // 测试赋值操作
+        cout << "\n--- 赋值操作测试 ---" << endl;
+        {
+            SharedPointer<TestClass> ptr4(new TestClass(30, "Object3"));
+            SharedPointer<TestClass> ptr5(new TestClass(40, "Object4"));
+            
+            cout << "ptr4 指向 Object3: ";
+            ptr4->print();
+            cout << "ptr5 指向 Object4: ";
+            ptr5->print();
+            
+            cout << "ptr4 和 ptr5 指向同一对象: " << (ptr4 == ptr5 ? "是" : "否") << endl;
+            
+            ptr5 = ptr4; // 赋值操作
+            cout << "执行 ptr5 = ptr4 后:" << endl;
+            cout << "ptr4 和 ptr5 指向同一对象: " << (ptr4 == ptr5 ? "是" : "否") << endl;
+            
+            cout << "ptr5 现在指向: ";
+            ptr5->print();
+        } // 两个指针离开作用域，对象被销毁
+        
+        // 测试与原始指针的比较
+        cout << "\n--- 与原始指针比较测试 ---" << endl;
+        {
+            TestClass* rawPtr = new TestClass(50, "Object5");
+            SharedPointer<TestClass> sharedPtr(rawPtr);
+            
+            cout << "原始指针和SharedPointer 指向同一对象: " 
+                 << (rawPtr == sharedPtr ? "是" : "否") << endl;
+            
+            // 注意：这里我们不手动删除 rawPtr，因为 SharedPointer 会负责删除
+        }
+        
+        // 测试 clear() 方法
+        cout << "\n--- clear() 方法测试 ---" << endl;
+        {
+            SharedPointer<TestClass> ptr6(new TestClass(60, "Object6"));
+            cout << "创建 ptr6" << endl;
+            
+            ptr6.clear();
+            cout << "调用 clear() 后，ptr6 为空: " 
+                 << (ptr6.get() == nullptr ? "是" : "否") << endl;
+        }
+        
+        cout << "\n=== 所有测试完成 ===" << endl;
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    return 0;
+}
