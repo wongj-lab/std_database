@@ -1,0 +1,98 @@
+// demo/staticstack_demo.cpp
+#include "StaticStack.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    cout << "=== StaticStack 测试 ===" << endl;
+    
+    try {
+        // 创建一个容量为5的静态栈
+        StaticStack<int, 5> intStack;
+        
+        cout << "初始栈容量: " << intStack.capacity() << endl;
+        cout << "初始栈大小: " << intStack.size() << endl;
+        
+        // 测试入栈操作
+        cout << "\n--- 入栈操作 ---" << endl;
+        for(int i = 1; i <= 5; i++) {
+            intStack.push(i * 10);
+            cout << "入栈: " << i * 10 << ", 当前栈顶: " << intStack.top() 
+                 << ", 栈大小: " << intStack.size() << endl;
+        }
+        
+        // 测试栈满情况
+        cout << "\n--- 测试栈满情况 ---" << endl;
+        try {
+            intStack.push(60);
+            cout << "入栈成功: 60" << endl;
+        } catch(const Exception& e) {
+            cout << "捕获异常: " << e.message() << endl;
+        }
+        
+        // 测试查看栈顶元素
+        cout << "\n--- 查看栈顶元素 ---" << endl;
+        cout << "当前栈顶元素: " << intStack.top() << endl;
+        cout << "当前栈大小: " << intStack.size() << endl;
+        
+        // 测试出栈操作
+        cout << "\n--- 出栈操作 ---" << endl;
+        while(intStack.size() > 0) {
+            cout << "栈顶元素: " << intStack.top() << ", ";
+            intStack.pop();
+            cout << "出栈, 剩余元素数: " << intStack.size() << endl;
+        }
+        
+        // 测试栈空情况
+        cout << "\n--- 测试栈空情况 ---" << endl;
+        try {
+            int top = intStack.top();
+            cout << "栈顶元素: " << top << endl;
+        } catch(const Exception& e) {
+            cout << "捕获异常: " << e.message() << endl;
+        }
+        
+        try {
+            intStack.pop();
+            cout << "出栈成功" << endl;
+        } catch(const Exception& e) {
+            cout << "捕获异常: " << e.message() << endl;
+        }
+        
+        // 测试清空栈
+        cout << "\n--- 测试清空栈 ---" << endl;
+        // 重新入栈一些元素
+        for(int i = 1; i <= 3; i++) {
+            intStack.push(i * 100);
+        }
+        cout << "入栈3个元素后大小: " << intStack.size() << endl;
+        intStack.clear();
+        cout << "清空后大小: " << intStack.size() << endl;
+        
+        // 测试字符串类型的静态栈
+        cout << "\n--- 字符串静态栈测试 ---" << endl;
+        StaticStack<string, 3> stringStack;
+        stringStack.push("First");
+        stringStack.push("Second");
+        stringStack.push("Third");
+        
+        cout << "字符串栈元素(出栈顺序):" << endl;
+        while(stringStack.size() > 0) {
+            cout << "  " << stringStack.top() << endl;
+            stringStack.pop();
+        }
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    cout << "\n=== 测试结束 ===" << endl;
+    
+    return 0;
+}
