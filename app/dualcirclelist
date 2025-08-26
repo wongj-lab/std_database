@@ -1,0 +1,137 @@
+// demo/dualcirclelist_demo.cpp
+#include "DualCircleList.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    cout << "=== DualCircleList 测试 ===" << endl;
+    
+    try {
+        // 创建一个整数双循环链表
+        DualCircleList<int> dualCircleList;
+        
+        cout << "初始链表长度: " << dualCircleList.length() << endl;
+        
+        // 添加元素
+        cout << "\n--- 添加元素 ---" << endl;
+        dualCircleList.insert(0, 10);
+        cout << "插入 10 到位置 0" << endl;
+        
+        dualCircleList.insert(20);
+        cout << "在末尾插入 20" << endl;
+        
+        dualCircleList.insert(1, 30);
+        cout << "插入 30 到位置 1" << endl;
+        
+        dualCircleList.insert(40);
+        cout << "在末尾插入 40" << endl;
+        
+        cout << "当前链表长度: " << dualCircleList.length() << endl;
+        
+        // 显示所有元素
+        cout << "\n--- 当前链表元素 ---" << endl;
+        for(int i = 0; i < dualCircleList.length(); i++) {
+            int value;
+            if(dualCircleList.get(i, value)) {
+                cout << "元素[" << i << "] = " << value << endl;
+            }
+        }
+        
+        // 测试循环特性
+        cout << "\n--- 测试循环特性 ---" << endl;
+        cout << "链表长度为 " << dualCircleList.length() << endl;
+        cout << "访问位置 0: " << dualCircleList.get(0) << endl;
+        cout << "访问位置 4 (模运算后): " << dualCircleList.get(4) << endl;
+        cout << "访问位置 8 (模运算后): " << dualCircleList.get(8) << endl;
+        
+        // 测试查找功能
+        cout << "\n--- 查找功能测试 ---" << endl;
+        int index = dualCircleList.find(30);
+        if(index != -1) {
+            cout << "找到 30 在位置: " << index << endl;
+        } else {
+            cout << "未找到 30" << endl;
+        }
+        
+        // 测试修改元素
+        cout << "\n--- 修改元素测试 ---" << endl;
+        if(dualCircleList.set(1, 50)) {
+            cout << "成功将位置 1 的元素修改为 50" << endl;
+        }
+        
+        int value;
+        if(dualCircleList.get(1, value)) {
+            cout << "修改后位置 1 的元素: " << value << endl;
+        }
+        
+        // 测试双向遍历功能
+        cout << "\n--- 双向遍历测试 ---" << endl;
+        cout << "从前向后遍历:" << endl;
+        dualCircleList.move(0, 1);
+        for(int i = 0; i < dualCircleList.length() && !dualCircleList.end(); i++) {
+            cout << "  " << dualCircleList.current() << endl;
+            dualCircleList.next();
+        }
+        
+        cout << "从后向前遍历:" << endl;
+        dualCircleList.move(dualCircleList.length() - 1, 1);
+        for(int i = 0; i < dualCircleList.length() && !dualCircleList.end(); i++) {
+            cout << "  " << dualCircleList.current() << endl;
+            dualCircleList.pre();
+        }
+        
+        // 测试删除元素
+        cout << "\n--- 删除元素测试 ---" << endl;
+        cout << "删除前长度: " << dualCircleList.length() << endl;
+        
+        if(dualCircleList.remove(0)) {
+            cout << "成功删除位置 0 的元素" << endl;
+        }
+        
+        cout << "删除后长度: " << dualCircleList.length() << endl;
+        cout << "删除后第一个元素: " << dualCircleList.get(0) << endl;
+        
+        // 显示剩余元素
+        cout << "\n--- 剩余元素 ---" << endl;
+        for(int i = 0; i < dualCircleList.length(); i++) {
+            int value;
+            if(dualCircleList.get(i, value)) {
+                cout << "元素[" << i << "] = " << value << endl;
+            }
+        }
+        
+        // 测试字符串类型的双循环链表
+        cout << "\n--- 字符串双循环链表测试 ---" << endl;
+        DualCircleList<string> stringList;
+        stringList.insert("First");
+        stringList.insert("Second");
+        stringList.insert("Third");
+        
+        cout << "字符串链表元素:" << endl;
+        for(int i = 0; i < stringList.length(); i++) {
+            string value;
+            if(stringList.get(i, value)) {
+                cout << "  [" << i << "] = " << value << endl;
+            }
+        }
+        
+        // 测试清空链表
+        cout << "\n--- 清空链表测试 ---" << endl;
+        cout << "清空前长度: " << stringList.length() << endl;
+        stringList.clear();
+        cout << "清空后长度: " << stringList.length() << endl;
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    cout << "\n=== 测试结束 ===" << endl;
+    
+    return 0;
+}
