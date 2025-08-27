@@ -1,0 +1,119 @@
+// demo/linkstack_demo.cpp
+#include "LinkStack.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    cout << "=== LinkStack 测试 ===" << endl;
+    
+    try {
+        // 创建一个整数链式栈
+        LinkStack<int> intStack;
+        
+        cout << "初始栈大小: " << intStack.size() << endl;
+        
+        // 测试入栈操作
+        cout << "\n--- 入栈操作 ---" << endl;
+        for(int i = 1; i <= 5; i++) {
+            intStack.push(i * 10);
+            cout << "入栈: " << i * 10 << ", 当前栈顶: " << intStack.top() 
+                 << ", 栈大小: " << intStack.size() << endl;
+        }
+        
+        // 测试查看栈顶元素
+        cout << "\n--- 查看栈顶元素 ---" << endl;
+        cout << "当前栈顶元素: " << intStack.top() << endl;
+        cout << "当前栈大小: " << intStack.size() << endl;
+        
+        // 测试出栈操作
+        cout << "\n--- 出栈操作 ---" << endl;
+        while(intStack.size() > 0) {
+            cout << "栈顶元素: " << intStack.top() << ", ";
+            intStack.pop();
+            cout << "出栈, 剩余元素数: " << intStack.size() << endl;
+        }
+        
+        // 测试栈空情况
+        cout << "\n--- 测试栈空情况 ---" << endl;
+        try {
+            int top = intStack.top();
+            cout << "栈顶元素: " << top << endl;
+        } catch(const Exception& e) {
+            cout << "捕获异常: " << e.message() << endl;
+        }
+        
+        try {
+            intStack.pop();
+            cout << "出栈成功" << endl;
+        } catch(const Exception& e) {
+            cout << "捕获异常: " << e.message() << endl;
+        }
+        
+        // 测试清空栈
+        cout << "\n--- 测试清空栈 ---" << endl;
+        // 重新入栈一些元素
+        for(int i = 1; i <= 3; i++) {
+            intStack.push(i * 100);
+        }
+        cout << "入栈3个元素后大小: " << intStack.size() << endl;
+        intStack.clear();
+        cout << "清空后大小: " << intStack.size() << endl;
+        
+        // 测试字符串类型的链式栈
+        cout << "\n--- 字符串链式栈测试 ---" << endl;
+        LinkStack<string> stringStack;
+        stringStack.push("First");
+        stringStack.push("Second");
+        stringStack.push("Third");
+        
+        cout << "字符串栈元素(出栈顺序):" << endl;
+        while(stringStack.size() > 0) {
+            cout << "  " << stringStack.top() << endl;
+            stringStack.pop();
+        }
+        
+        // 测试大量元素
+        cout << "\n--- 大量元素测试 ---" << endl;
+        LinkStack<int> largeStack;
+        const int COUNT = 1000;
+        cout << "入栈 " << COUNT << " 个元素..." << endl;
+        for(int i = 1; i <= COUNT; i++) {
+            largeStack.push(i);
+        }
+        cout << "入栈完成，栈大小: " << largeStack.size() << endl;
+        
+        // 只测试前5个和后5个元素
+        cout << "前5个元素: ";
+        for(int i = 0; i < 5; i++) {
+            cout << largeStack.top() << " ";
+            largeStack.pop();
+        }
+        cout << endl;
+        
+        // 弹出剩余元素
+        while(largeStack.size() > 5) {
+            largeStack.pop();
+        }
+        
+        cout << "后5个元素: ";
+        while(largeStack.size() > 0) {
+            cout << largeStack.top() << " ";
+            largeStack.pop();
+        }
+        cout << endl;
+        cout << "最终栈大小: " << largeStack.size() << endl;
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    cout << "\n=== 测试结束 ===" << endl;
+    
+    return 0;
+}
