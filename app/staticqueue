@@ -1,0 +1,117 @@
+// demo/staticqueue_demo.cpp
+#include "StaticQueue.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    cout << "=== StaticQueue 测试 ===" << endl;
+    
+    try {
+        // 创建一个容量为5的静态队列
+        StaticQueue<int, 5> intQueue;
+        
+        cout << "初始队列容量: " << intQueue.capacity() << endl;
+        cout << "初始队列长度: " << intQueue.length() << endl;
+        
+        // 测试入队操作
+        cout << "\n--- 入队操作 ---" << endl;
+        for(int i = 1; i <= 5; i++) {
+            intQueue.add(i * 10);
+            cout << "入队: " << i * 10 << ", 队列长度: " << intQueue.length() << endl;
+        }
+        
+        // 测试队列满情况
+        cout << "\n--- 测试队列满情况 ---" << endl;
+        try {
+            intQueue.add(60);
+            cout << "入队成功: 60" << endl;
+        } catch(const Exception& e) {
+            cout << "捕获异常: " << e.message() << endl;
+        }
+        
+        // 测试查看队首元素
+        cout << "\n--- 查看队首元素 ---" << endl;
+        cout << "队首元素: " << intQueue.front() << endl;
+        cout << "队列长度: " << intQueue.length() << endl;
+        
+        // 测试出队操作
+        cout << "\n--- 出队操作 ---" << endl;
+        while(intQueue.length() > 0) {
+            cout << "队首元素: " << intQueue.front() << ", ";
+            intQueue.remove();
+            cout << "出队, 剩余元素数: " << intQueue.length() << endl;
+        }
+        
+        // 测试队列空情况
+        cout << "\n--- 测试队列空情况 ---" << endl;
+        try {
+            int front = intQueue.front();
+            cout << "队首元素: " << front << endl;
+        } catch(const Exception& e) {
+            cout << "捕获异常: " << e.message() << endl;
+        }
+        
+        try {
+            intQueue.remove();
+            cout << "出队成功" << endl;
+        } catch(const Exception& e) {
+            cout << "捕获异常: " << e.message() << endl;
+        }
+        
+        // 测试循环特性
+        cout << "\n--- 测试循环队列特性 ---" << endl;
+        StaticQueue<int, 3> smallQueue;
+        for(int i = 1; i <= 3; i++) {
+            smallQueue.add(i);
+        }
+        cout << "队列满后，队首: " << smallQueue.front() << ", 长度: " << smallQueue.length() << endl;
+        
+        smallQueue.remove(); // 出队一个元素
+        cout << "出队一个元素后，队首: " << smallQueue.front() << ", 长度: " << smallQueue.length() << endl;
+        
+        smallQueue.add(4); // 在空位置入队
+        cout << "入队元素4后，长度: " << smallQueue.length() << endl;
+        
+        // 依次出队所有元素
+        while(smallQueue.length() > 0) {
+            cout << "出队: " << smallQueue.front() << ", 剩余: " << smallQueue.length() << endl;
+            smallQueue.remove();
+        }
+        
+        // 测试清空队列
+        cout << "\n--- 测试清空队列 ---" << endl;
+        // 重新入队一些元素
+        for(int i = 1; i <= 3; i++) {
+            intQueue.add(i * 100);
+        }
+        cout << "入队3个元素后长度: " << intQueue.length() << endl;
+        intQueue.clear();
+        cout << "清空后长度: " << intQueue.length() << endl;
+        
+        // 测试字符串类型的静态队列
+        cout << "\n--- 字符串静态队列测试 ---" << endl;
+        StaticQueue<string, 3> stringQueue;
+        stringQueue.add("First");
+        stringQueue.add("Second");
+        stringQueue.add("Third");
+        
+        cout << "字符串队列元素(出队顺序):" << endl;
+        while(stringQueue.length() > 0) {
+            cout << "  " << stringQueue.front() << endl;
+            stringQueue.remove();
+        }
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    cout << "\n=== 测试结束 ===" << endl;
+    
+    return 0;
+}
