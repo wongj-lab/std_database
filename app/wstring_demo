@@ -1,0 +1,162 @@
+// demo/wstring_demo.cpp
+#include "WString.h"
+#include <iostream>
+#include "Exception.h"
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    cout << "=== WString 测试 ===" << endl;
+    
+    try {
+        // 基本构造函数测试
+        cout << "\n--- 基本构造函数测试 ---" << endl;
+        String s1;                    // 默认构造
+        String s2("Hello");          // C字符串构造
+        String s3(s2);               // 拷贝构造
+        String s4('A');              // 字符构造
+        
+        cout << "s1 (默认构造): \"" << s1 << "\" 长度: " << s1.length() << endl;
+        cout << "s2 (C字符串): \"" << s2 << "\" 长度: " << s2.length() << endl;
+        cout << "s3 (拷贝构造): \"" << s3 << "\" 长度: " << s3.length() << endl;
+        cout << "s4 (字符构造): \"" << s4 << "\" 长度: " << s4.length() << endl;
+        
+        // 基本操作测试
+        cout << "\n--- 基本操作测试 ---" << endl;
+        String str("Hello World");
+        cout << "原字符串: \"" << str << "\" 长度: " << str.length() << endl;
+        
+        // 访问字符
+        cout << "第一个字符: " << str[0] << endl;
+        cout << "最后一个字符: " << str[str.length()-1] << endl;
+        
+        // 子字符串
+        String sub1 = str.sub(6);
+        cout << "从位置6开始的子串: \"" << sub1 << "\"" << endl;
+        
+        String sub2 = str.sub(0, 5);
+        cout << "前5个字符: \"" << sub2 << "\"" << endl;
+        
+        // 查找操作
+        cout << "\n--- 查找操作测试 ---" << endl;
+        int index = str.indexOf("World");
+        cout << "查找 \"World\" 位置: " << index << endl;
+        
+        index = str.indexOf("xyz");
+        cout << "查找不存在的 \"xyz\" 位置: " << index << endl;
+        
+        // 前缀和后缀检查
+        cout << "是否以 \"Hello\" 开头: " << (str.startWith("Hello") ? "是" : "否") << endl;
+        cout << "是否以 \"World\" 结尾: " << (str.endOf("World") ? "是" : "否") << endl;
+        cout << "是否以 \"xyz\" 开头: " << (str.startWith("xyz") ? "是" : "否") << endl;
+        
+        // 插入操作
+        cout << "\n--- 插入操作测试 ---" << endl;
+        String insertStr("Hello");
+        cout << "原字符串: \"" << insertStr << "\"" << endl;
+        
+        insertStr.insert(5, " Beautiful");
+        cout << "在位置5插入 \" Beautiful\": \"" << insertStr << "\"" << endl;
+        
+        insertStr.insert(" World");
+        cout << "在末尾插入 \" World\": \"" << insertStr << "\"" << endl;
+        
+        // 删除操作
+        cout << "\n--- 删除操作测试 ---" << endl;
+        String removeStr("Hello Beautiful World");
+        cout << "原字符串: \"" << removeStr << "\"" << endl;
+        
+        removeStr.remove(5, 10);
+        cout << "删除位置5开始的10个字符: \"" << removeStr << "\"" << endl;
+        
+        // 替换操作
+        cout << "\n--- 替换操作测试 ---" << endl;
+        String replaceStr("Hello World Hello Universe");
+        cout << "原字符串: \"" << replaceStr << "\"" << endl;
+        
+        replaceStr.replace("Hello", "Hi");
+        cout << "将 \"Hello\" 替换为 \"Hi\": \"" << replaceStr << "\"" << endl;
+        
+        // 去除空格
+        cout << "\n--- 去除空格测试 ---" << endl;
+        String trimStr("   Hello World   ");
+        cout << "原字符串: \"" << trimStr << "\"" << endl;
+        
+        trimStr.trim();
+        cout << "去除首尾空格后: \"" << trimStr << "\"" << endl;
+        
+        // 比较操作
+        cout << "\n--- 比较操作测试 ---" << endl;
+        String str1("Apple");
+        String str2("Banana");
+        
+        cout << "\"" << str1 << "\" == \"" << str2 << "\": " << (str1 == str2 ? "是" : "否") << endl;
+        cout << "\"" << str1 << "\" != \"" << str2 << "\": " << (str1 != str2 ? "是" : "否") << endl;
+        cout << "\"" << str1 << "\" < \"" << str2 << "\": " << (str1 < str2 ? "是" : "否") << endl;
+        cout << "\"" << str1 << "\" > \"" << str2 << "\": " << (str1 > str2 ? "是" : "否") << endl;
+        
+        // 连接操作
+        cout << "\n--- 连接操作测试 ---" << endl;
+        String concat1("Hello");
+        String concat2("World");
+        
+        String result1 = concat1 + " " + concat2;
+        cout << "连接结果: \"" << result1 << "\"" << endl;
+        
+        concat1 += " Beautiful ";
+        concat1 += concat2;
+        cout << "+= 操作后: \"" << concat1 << "\"" << endl;
+        
+        // 减法操作
+        cout << "\n--- 减法操作测试 ---" << endl;
+        String minusStr("Hello Beautiful World");
+        cout << "原字符串: \"" << minusStr << "\"" << endl;
+        
+        String result2 = minusStr - "Beautiful ";
+        cout << "减去 \"Beautiful \": \"" << result2 << "\"" << endl;
+        
+        minusStr -= "World";
+        cout << "-= 操作后: \"" << minusStr << "\"" << endl;
+        
+        // 赋值操作
+        cout << "\n--- 赋值操作测试 ---" << endl;
+        String assignStr;
+        assignStr = "New Value";
+        cout << "字符赋值: \"" << assignStr << "\"" << endl;
+        
+        assignStr = String("Another Value");
+        cout << "字符串赋值: \"" << assignStr << "\"" << endl;
+        
+        assignStr = 'X';
+        cout << "字符赋值: \"" << assignStr << "\"" << endl;
+        
+        // 边界情况测试
+        cout << "\n--- 边界情况测试 ---" << endl;
+        String emptyStr("");
+        cout << "空字符串长度: " << emptyStr.length() << endl;
+        
+        String nullStr;
+        nullStr = static_cast<const char*>(nullptr);
+        cout << "null字符串: \"" << nullStr << "\" 长度: " << nullStr.length() << endl;
+        
+        // 复杂表达式测试
+        cout << "\n--- 复杂表达式测试 ---" << endl;
+        String expr1("Hello");
+        String expr2("World");
+        String expr3("C++");
+        
+        String complexResult = expr1 + " " + expr2 + " " + expr3 + "!";
+        cout << "复杂连接: \"" << complexResult << "\"" << endl;
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    cout << "\n=== 测试结束 ===" << endl;
+    
+    return 0;
+}
