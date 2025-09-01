@@ -1,0 +1,155 @@
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include "Sort.h"
+#include "StaticArray.h"
+
+using namespace WLib;
+using namespace std;
+
+// 打印数组的函数
+template<typename T>
+void PrintArray(T array[], int len, const char* title)
+{
+    cout << title << ": ";
+    for(int i=0; i<len; i++) {
+        cout << array[i] << " ";
+    }
+    cout << endl;
+}
+
+// 复制数组的函数
+template<typename T>
+void CopyArray(T src[], T dest[], int len)
+{
+    for(int i=0; i<len; i++) {
+        dest[i] = src[i];
+    }
+}
+
+int main()
+{
+    cout << "DTLib All Sort Algorithms Demo" << endl;
+    cout << "===============================" << endl;
+    
+    // 创建测试数据
+    const int LEN = 15;
+    int original[] = {64, 34, 25, 12, 22, 11, 90, 88, 76, 50, 42, 35, 99, 1, 67};
+    
+    cout << "Testing with array of size " << LEN << endl;
+    PrintArray(original, LEN, "Original array");
+    cout << endl;
+    
+    // 测试选择排序
+    {
+        int arr[LEN];
+        CopyArray(original, arr, LEN);
+        clock_t start = clock();
+        Sort::Select(arr, LEN, true);
+        clock_t end = clock();
+        PrintArray(arr, LEN, "Select sort (asc)");
+        cout << "Time taken: " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl << endl;
+    }
+    
+    // 测试插入排序
+    {
+        int arr[LEN];
+        CopyArray(original, arr, LEN);
+        clock_t start = clock();
+        Sort::Insert(arr, LEN, true);
+        clock_t end = clock();
+        PrintArray(arr, LEN, "Insert sort (asc)");
+        cout << "Time taken: " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl << endl;
+    }
+    
+    // 测试冒泡排序
+    {
+        int arr[LEN];
+        CopyArray(original, arr, LEN);
+        clock_t start = clock();
+        Sort::Bubble(arr, LEN, true);
+        clock_t end = clock();
+        PrintArray(arr, LEN, "Bubble sort (asc)");
+        cout << "Time taken: " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl << endl;
+    }
+    
+    // 测试希尔排序
+    {
+        int arr[LEN];
+        CopyArray(original, arr, LEN);
+        clock_t start = clock();
+        Sort::Shell(arr, LEN, true);
+        clock_t end = clock();
+        PrintArray(arr, LEN, "Shell sort (asc)");
+        cout << "Time taken: " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl << endl;
+    }
+    
+    // 测试归并排序
+    {
+        int arr[LEN];
+        CopyArray(original, arr, LEN);
+        clock_t start = clock();
+        Sort::Merge(arr, LEN, true);
+        clock_t end = clock();
+        PrintArray(arr, LEN, "Merge sort (asc)");
+        cout << "Time taken: " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl << endl;
+    }
+    
+    // 测试快速排序
+    {
+        int arr[LEN];
+        CopyArray(original, arr, LEN);
+        clock_t start = clock();
+        Sort::Quick(arr, LEN, true);
+        clock_t end = clock();
+        PrintArray(arr, LEN, "Quick sort (asc)");
+        cout << "Time taken: " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl << endl;
+    }
+    
+    // 测试堆排序
+    // {
+    //     int arr[LEN];
+    //     CopyArray(original, arr, LEN);
+    //     clock_t start = clock();
+    //     Sort::Heap(arr, LEN, true);
+    //     clock_t end = clock();
+    //     PrintArray(arr, LEN, "Heap sort (asc)");
+    //     cout << "Time taken: " << (double)(end - start) / CLOCKS_PER_SEC << " seconds" << endl << endl;
+    // }
+    
+    // 测试StaticArray容器的排序
+    {
+        StaticArray<int, LEN> staticArr;
+        for(int i=0; i<LEN; i++) {
+            staticArr[i] = original[i];
+        }
+        
+        cout << "Testing StaticArray container sorting:" << endl;
+        cout << "Before sorting: ";
+        for(int i=0; i<LEN; i++) {
+            cout << staticArr[i] << " ";
+        }
+        cout << endl;
+        
+        Sort::Shell(staticArr, true);
+        
+        cout << "After Shell sort: ";
+        for(int i=0; i<LEN; i++) {
+            cout << staticArr[i] << " ";
+        }
+        cout << endl << endl;
+    }
+    
+    // 测试降序排序 (使用希尔排序作为示例)
+    {
+        int arr[LEN];
+        CopyArray(original, arr, LEN);
+        Sort::Shell(arr, LEN, false);
+        PrintArray(arr, LEN, "Shell sort (desc)");
+        cout << endl;
+    }
+    
+    cout << "All sorting algorithms tested successfully!" << endl;
+    
+    return 0;
+}
