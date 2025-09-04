@@ -1,0 +1,84 @@
+// demo/gtree_insert_demo.cpp
+#include "GTree.h"
+#include "GTreeNode.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    cout << "=== GTree insert 方法测试 ===" << endl;
+    
+    try {
+        // 创建一个泛型树
+        GTree<string> tree;
+        
+        // 测试插入根节点
+        cout << "--- 插入根节点 ---" << endl;
+        TreeNode<string>* root = tree.insert("Root", nullptr);
+        if(root != nullptr) {
+            cout << "成功插入根节点: " << root->value << endl;
+        }
+        
+        // 测试插入子节点
+        cout << "\n--- 插入子节点 ---" << endl;
+        TreeNode<string>* child1 = tree.insert("Child1", root);
+        TreeNode<string>* child2 = tree.insert("Child2", root);
+        
+        if(child1 != nullptr && child2 != nullptr) {
+            cout << "成功插入子节点: " << child1->value << ", " << child2->value << endl;
+        }
+        
+        // 测试插入孙子节点
+        cout << "\n--- 插入孙子节点 ---" << endl;
+        TreeNode<string>* grandchild1 = tree.insert("Grandchild1", child1);
+        TreeNode<string>* grandchild2 = tree.insert("Grandchild2", child1);
+        
+        if(grandchild1 != nullptr && grandchild2 != nullptr) {
+            cout << "成功插入孙子节点: " << grandchild1->value << ", " << grandchild2->value << endl;
+        }
+        
+        // 显示树结构
+        cout << "\n--- 当前树结构 ---" << endl;
+        cout << "Root" << endl;
+        cout << "├── Child1" << endl;
+        cout << "│   ├── Grandchild1" << endl;
+        cout << "│   └── Grandchild2" << endl;
+        cout << "└── Child2" << endl;
+        
+        // 显示树的基本信息
+        cout << "\n--- 树的基本信息 ---" << endl;
+        cout << "节点总数: " << tree.count() << endl;
+        cout << "树高度: " << tree.height() << endl;
+        cout << "树度数: " << tree.degree() << endl;
+        
+        // 测试插入到不存在的父节点
+        cout << "\n--- 测试错误情况 ---" << endl;
+        try {
+            TreeNode<string>* invalidParent = tree.insert("Invalid", reinterpret_cast<TreeNode<string>*>(0x12345678));
+            if(invalidParent == nullptr) {
+                cout << "正确处理无效父节点 (返回nullptr)" << endl;
+            }
+        } catch(...) {
+            cout << "正确捕获插入无效父节点时的异常" << endl;
+        }
+        
+        // 测试重复插入相同值的节点
+        cout << "\n--- 测试重复插入 ---" << endl;
+        TreeNode<string>* duplicate = tree.insert("Child1", root);
+        if(duplicate != nullptr) {
+            cout << "允许插入相同值的节点: " << duplicate->value << endl;
+        }
+        
+    } catch(const Exception& e) {
+        cout << "捕获异常: " << e.message() << " (" << e.location() << ")" << endl;
+    } catch(...) {
+        cout << "捕获未知异常" << endl;
+    }
+    
+    cout << "\n=== insert 方法测试结束 ===" << endl;
+    
+    return 0;
+}
