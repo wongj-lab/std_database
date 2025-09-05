@@ -670,7 +670,7 @@ public:
 		return equal(root(),btree.root());
 	}
 
-	bool operator != (const BTree<T>& btree)const
+	bool operator != (const BTree<T>& btree)
 	{
 		return !(*this==btree);
 	}
