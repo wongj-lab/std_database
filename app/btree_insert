@@ -1,0 +1,65 @@
+#include <iostream>
+#include "GTree.h"
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    GTree<int> tree;
+    
+    // 测试 insert(const T& value, TreeNode<T>* parent) 函数
+    // 插入根节点，parent 为 nullptr
+    TreeNode<int>* root = tree.insert(1, nullptr);
+    if(root != NULL)
+    {
+        cout << "Root node inserted with value: " << root->value << endl;
+    }
+    
+    // 插入根节点的子节点
+    TreeNode<int>* child1 = tree.insert(2, root);
+    if(child1 != NULL)
+    {
+        cout << "Child node inserted with value: " << child1->value << endl;
+    }
+    
+    // 插入另一个子节点
+    TreeNode<int>* child2 = tree.insert(3, root);
+    if(child2 != NULL)
+    {
+        cout << "Child node inserted with value: " << child2->value << endl;
+    }
+    
+    // 插入孙子节点
+    TreeNode<int>* grandchild = tree.insert(4, child1);
+    if(grandchild != NULL)
+    {
+        cout << "Grandchild node inserted with value: " << grandchild->value << endl;
+    }
+    
+    // 测试 insert(TreeNode<T>* node) 函数
+    GTreeNode<int>* newNode = GTreeNode<int>::NewNode();
+    if(newNode != NULL)
+    {
+        newNode->value = 5;
+        newNode->parent = child2;  // 设置父节点为child2
+        
+        TreeNode<int>* insertedNode = tree.insert(newNode);
+        if(insertedNode != NULL)
+        {
+            cout << "Node inserted via direct insert method with value: " << insertedNode->value << endl;
+        }
+    }
+    
+    // 遍历树来验证结构
+    cout << "\nTree traversal:" << endl;
+    tree.begin();
+    while(!tree.end())
+    {
+        cout << tree.current() << " ";
+        tree.next();
+    }
+    cout << endl;
+    
+    return 0;
+}
