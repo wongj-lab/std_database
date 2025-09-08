@@ -120,7 +120,7 @@ protected:
 		}
 	}
 
-	virtual void remove(BTreeNode<T>* node,BTree<T>& ret)
+	virtual void remove(BTreeNode<T>* node,BTree<T>*& ret)
 	{
 		ret = new BTree<T>();
 
@@ -610,7 +610,7 @@ public:
 		}
 	}
 	
-	SharedPointer<array<T>>traversal(BTTraversal order)
+	SharedPointer<Array<T>>traversal(BTTraversal order)
 	{
 		DynamicArray<T>*ret = NULL;
 		LinkQueue<BTreeNode<T>* >queue;

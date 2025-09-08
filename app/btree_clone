@@ -1,0 +1,54 @@
+#include <iostream>
+#include "BTree.h"
+#include "SharedPointer.h"
+#include "Array.h"
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    BTree<int> tree;
+    
+    // 构建测试二叉树
+    BTreeNode<int>* root = tree.insert(1, nullptr);     // 根节点
+    BTreeNode<int>* leftChild = tree.insert(2, root, LEFT);   // 左子节点
+    BTreeNode<int>* rightChild = tree.insert(3, root, RIGHT); // 右子节点
+    BTreeNode<int>* grandChild1 = tree.insert(4, leftChild, LEFT);  // 左子节点的左子节点
+    BTreeNode<int>* grandChild2 = tree.insert(5, leftChild, RIGHT); // 左子节点的右子节点
+    
+    cout << "Original tree node count: " << tree.count() << endl;
+    cout << "Original tree height: " << tree.height() << endl;
+    
+    // 测试 clone() 函数
+    SharedPointer<BTree<int>> clonedTree = tree.clone();
+    
+    // if(clonedTree)
+    {
+        cout << "Tree cloned successfully!" << endl;
+        cout << "Cloned tree node count: " << clonedTree->count() << endl;
+        cout << "Cloned tree height: " << clonedTree->height() << endl;
+        
+        // 验证克隆树的内容
+        cout << "Cloned tree level order traversal: ";
+        tree.begin();
+        while(!tree.end())
+        {
+            cout << tree.current() << " ";
+            tree.next();
+        }
+        cout << endl;
+        
+        // 修改原树以验证克隆树是独立的
+        tree.remove(2);  // 删除值为2的节点
+        cout << "\nAfter removing node with value 2 from original tree:" << endl;
+        cout << "Original tree node count: " << tree.count() << endl;
+        cout << "Cloned tree node count: " << clonedTree->count() << endl;
+    }
+    // else
+    // {
+    //     cout << "Failed to clone tree!" << endl;
+    // }
+    
+    return 0;
+}

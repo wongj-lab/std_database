@@ -31,7 +31,7 @@ public:
 
 		if(ret != NULL)
 		{
-			ret->flag = true;
+			ret->m_flag = true;
 		}
 
 		return ret;
