@@ -1,0 +1,41 @@
+#include <iostream>
+#include "BTree.h"
+
+using namespace std;
+using namespace WLib;
+
+int main()
+{
+    // 创建第一个二叉树
+    BTree<int> tree1;
+    BTreeNode<int>* root1 = tree1.insert(1, nullptr);
+    BTreeNode<int>* left1 = tree1.insert(2, root1, LEFT);
+    BTreeNode<int>* right1 = tree1.insert(3, root1, RIGHT);
+    
+    // 创建第二个完全相同的二叉树
+    BTree<int> tree2;
+    BTreeNode<int>* root2 = tree2.insert(1, nullptr);
+    BTreeNode<int>* left2 = tree2.insert(2, root2, LEFT);
+    BTreeNode<int>* right2 = tree2.insert(3, root2, RIGHT);
+    
+    // 创建第三个不同的二叉树
+    BTree<int> tree3;
+    BTreeNode<int>* root3 = tree3.insert(1, nullptr);
+    BTreeNode<int>* left3 = tree3.insert(2, root3, LEFT);
+    BTreeNode<int>* right3 = tree3.insert(4, root3, RIGHT); // 值不同
+    
+    // 测试 operator==
+    cout << "tree1 == tree2: " << (tree1 == tree2 ? "true" : "false") << endl;
+    cout << "tree1 == tree3: " << (tree1 == tree3 ? "true" : "false") << endl;
+    cout << "tree2 == tree3: " << (tree2 == tree3 ? "true" : "false") << endl;
+    
+    // 测试 operator!=
+    cout << "tree1 != tree2: " << (tree1 != tree2 ? "true" : "false") << endl;
+    cout << "tree1 != tree3: " << (tree1 != tree3 ? "true" : "false") << endl;
+    
+    // 克隆树进行测试
+    SharedPointer<BTree<int>> clonedTree = tree1.clone();
+    cout << "tree1 == clonedTree: " << (tree1 == *clonedTree ? "true" : "false") << endl;
+    
+    return 0;
+}
